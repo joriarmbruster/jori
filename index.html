@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jori Armbruster | Regeneration & Decentralization</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons (via CDN) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            /* Dark Mode (Default) */
+            --bg-color: #0f1113;
+            --secondary-bg: #1a1d21;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --accent: #5dbb63; /* Coffee Green */
+            --accent-hover: #4e9e53;
+            --border-color: #2a2d31;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8f9fa;
+            --secondary-bg: #ffffff;
+            --text-primary: #1a1d21;
+            --text-secondary: #505050;
+            --accent: #3d8c42;
+            --border-color: #e0e0e0;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul { list-style: none; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(var(--bg-color), 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- Hero Section --- */
+        #home {
+            padding: 160px 0 100px;
+            text-align: center;
+        }
+
+        .hero-tagline {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-bio {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(93, 187, 99, 0.3);
+            background: var(--accent-hover);
+        }
+
+        /* --- Sections General --- */
+        section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* --- About Section --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .quote-box {
+            background: var(--secondary-bg);
+            padding: 2rem;
+            border-left: 4px solid var(--accent);
+            font-style: italic;
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* --- Projects Section --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+
+        .card h3 { margin-bottom: 1rem; }
+        .card p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem; }
+
+        .stat {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .coffee-preview {
+            margin-top: 1rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .coffee-tag {
+            background: rgba(93, 187, 99, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* --- Insights Section --- */
+        .insights-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .insight-item {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .insight-item:hover {
+            background: var(--border-color);
+        }
+
+        /* --- Contact --- */
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-icon {
+            padding: 15px;
+            background: var(--secondary-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-icon:hover {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        footer {
+            padding: 50px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-title { font-size: 2.5rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .about-image { order: -1; }
+        }
+
+        /* Simple Fade In Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">JORI ARMBRUSTER</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#projects">Impact</a>
+                <a href="#thoughts">Insights</a>
+                <a href="#resources">Resources</a>
+                <a href="#contact">Contact</a>
+                <button class="theme-toggle" id="theme-btn">
+                    <i data-lucide="sun" id="theme-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <header id="home">
+        <div class="container">
+            <span class="hero-tagline">Regeneration & Decentralization</span>
+            <h1 class="hero-title">Bridging divides through<br>technology and empathy.</h1>
+            <p class="hero-bio">Co-founder of EthicHub, advocate for small producers, and believer in a world where collaboration trumps division.</p>
+            <a href="#contact" class="btn">Collaborate with me</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <h2 class="section-title" style="text-align: left;">Values & Vision</h2>
+                    <p>I am a fervent believer in regeneration and decentralization. As a co-founder of <strong>EthicHub</strong>, I work at the intersection of ReFi and real-world impact, channeling financing to small coffee producers across six countries.</p>
+                    <p>My work is driven by a passion for tackling climate change, biodiversity loss, and global inequities. I advocate for democratizing opportunities in education and funding to unlock talent everywhere, regardless of geography.</p>
+                    <div class="quote-box">
+                        "Brilliant people should be the first leading de-escalation! There shouldn't be two sides but a wide range of positions."
+                    </div>
+                </div>
+                <div class="about-image reveal">
+                    <p>I reject polarized extremes in favor of rational, cosmopolitan dialogue. I believe that blockchain and technology are not just financial tools, but bridges to create a less fractured world.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects & Impact</h2>
+            <div class="projects-grid">
+                <!-- EthicHub App -->
+                <div class="card reveal">
+                    <span class="stat">$7M+</span>
+                    <h3>EthicHub Finance</h3>
+                    <p>A ReFi pioneer platform collateralizing loans with $ethix tokens to empower unbanked farmers.</p>
+                    <a href="https://app.ethichub.com" target="_blank" class="btn" style="padding: 8px 20px; font-size: 0.8rem;">Visit App</a>
+                </div>
+
+                <!-- Green Coffee -->
+                <div class="card reveal">
+                    <i data-lucide="shopping-cart" style="color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h3>Green Coffee Shop</h3>
+                    <p>Connecting high-value markets with specialty coffee. Direct trade 5kg bricks for enthusiasts and roasters.</p>
+                    <div class="coffee-preview">
+                        <span class="coffee-tag">5kg Bricks</span>
+                        <span class="coffee-tag">Regenerative</span>
+                    </div>
+                    <a href="https://greencoffee.ethichub.com" target="_blank" style="display: block; margin-top: 1.5rem; color: var(--accent); font-weight: 600;">Buy Coffee →</a>
+                </div>
+
+                <!-- Future Projects -->
+                <div class="card reveal">
+                    <i data-lucide="code" style="color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h3>Live Coding Space</h3>
+                    <p>Coming Soon: A dedicated subsection for my live coding projects focusing on blockchain integration and regenerative tools.</p>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase;">In Development</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thoughts Section -->
+    <section id="thoughts">
+        <div class="container">
+            <h2 class="section-title">Thoughts & Insights</h2>
+            <div class="insights-list">
+                <div class="insight-item reveal">
+                    <div>
+                        <h3>De-escalating Polarization</h3>
+                        <p style="color: var(--text-secondary);">The role of cosmopolitan dialogue in a fractured world.</p>
+                    </div>
+                    <i data-lucide="arrow-right"></i>
+                </div>
+                <div class="insight-item reveal">
+                    <div>
+                        <h3>Crypto & AI for Good</h3>
+                        <p style="color: var(--text-secondary);">Leveraging cutting-edge tools to solve the climate crisis.</p>
+                    </div>
+                    <i data-lucide="arrow-right"></i>
+                </div>
+                <div class="insight-item reveal">
+                    <div>
+                        <h3>The ReFi Revolution</h3>
+                        <p style="color: var(--text-secondary);">Why sustainable finance must be decentralized.</p>
+                    </div>
+                    <i data-lucide="arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <div class="container">
+            <h2 class="section-title">Resources</h2>
+            <div class="projects-grid">
+                <div class="card reveal" style="padding: 1.5rem;">
+                    <h4>Partners</h4>
+                    <p>Working alongside institutions like <strong>IDB_Lab</strong> and <strong>Bybit</strong> to scale impact.</p>
+                </div>
+                <div class="card reveal" style="padding: 1.5rem;">
+                    <h4>Transparency</h4>
+                    <p>View our platform audits and smart contract security documentation.</p>
+                    <a href="#" style="color: var(--accent);">View Audits →</a>
+                </div>
+                <div class="card reveal" style="padding: 1.5rem;">
+                    <h4>Recommended Reading</h4>
+                    <p>Raoul Pal's Macro Insights, Climate Solutions, and Regeneration Theory.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container contact-content">
+            <h2 class="section-title">Let’s Start a Dialogue</h2>
+            <p>I'm always open to discussing regeneration, decentralization, or how we can use tech to lead de-escalation in a polarized world.</p>
+            
+            <div class="social-links">
+                <a href="mailto:joriarmbruster@gmail.com" class="social-icon" title="Email"><i data-lucide="mail"></i></a>
+                <a href="https://twitter.com/jori_armbruster" target="_blank" class="social-icon" title="Twitter"><i data-lucide="twitter"></i></a>
+                <a href="https://www.linkedin.com/in/jori-armbruster" target="_blank" class="social-icon" title="LinkedIn"><i data-lucide="linkedin"></i></a>
+                <a href="https://github.com/joriarmbruster" target="_blank" class="social-icon" title="GitHub"><i data-lucide="github"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Jori Armbruster. Built for a regenerative future.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Dark/Light Mode Toggle
+        const themeBtn = document.getElementById('theme-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            
+            // Update Icon
+            if (newTheme === 'light') {
+                themeIcon.setAttribute('data-lucide', 'moon');
+            } else {
+                themeIcon.setAttribute('data-lucide', 'sun');
+            }
+            lucide.createIcons();
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            for (let i = 0; i < revealElements.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = revealElements[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    revealElements[i].classList.add('active');
+                }
+            }
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+
+        // Smooth Scrolling for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
